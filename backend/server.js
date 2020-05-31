@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const todoRoutes = express.Router();
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 const MongoClient = require('mongodb').MongoClient;
 let Todo = require('./todo.model');
 
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // mongodb://127.0.0.1:27017/todos (use this for local database)
 //mongodb+srv://admin:achlesh123@cluster0-jgmav.mongodb.net/test?retryWrites=true&w=majority
 //, useUnifiedTopology: true 
-mongoose.connect('mongodb+srv://achlesh:achlesh@cluster0-jgmav.mongodb.net/details?retryWrites=true&w=majority', { useNewUrlParser: true,useUnifiedTopology: true },(err)=>{
+mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://achlesh:achlesh@cluster0-jgmav.mongodb.net/details?retryWrites=true&w=majority', { useNewUrlParser: true,useUnifiedTopology: true },(err)=>{
     if (!err) { console.log('MongoDB Connection Succeeded.') }
     else { console.log('Error in DB connection : ' + err) }
 });
@@ -85,6 +85,11 @@ todoRoutes.route('/delete/:id').delete(function(req,res){
     })
         
         });
+
+        if(process.env.NODE_ENV === 'production')
+        {
+            app.use(express.static('phonebook-app/build'));
+        }
 
 app.use('/todos', todoRoutes);
 
