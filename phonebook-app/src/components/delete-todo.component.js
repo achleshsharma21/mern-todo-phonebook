@@ -7,9 +7,9 @@ export default class DeleteTodo extends Component{
         this.notDelete=this.notDelete.bind(this);
     }
     
-    componentDidMount(){
-        this.onDelete();
-    }
+    // componentDidMount(){
+    //      this.onDelete();
+    // }
     onDelete(){
         axios.delete('http://localhost:4000/todos/delete/' + this.props.match.params.id)
             .then((res) => {

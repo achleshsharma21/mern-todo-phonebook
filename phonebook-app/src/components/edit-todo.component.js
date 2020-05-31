@@ -7,8 +7,8 @@ export default class EditTodo extends Component {
         super(props);
 
         this.onChangeTodoDescription = this.onChangeTodoDescription.bind(this);
-        this.onChangeTodoNumber = this.onChangeTodoNumber.bind(this);
         this.onChangeTodoResponsible = this.onChangeTodoResponsible.bind(this);
+        this.onChangeTodoNumber = this.onChangeTodoNumber.bind(this);
         this.onChangeTodoPriority = this.onChangeTodoPriority.bind(this);
         this.onChangeTodoCompleted = this.onChangeTodoCompleted.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -48,7 +48,7 @@ export default class EditTodo extends Component {
             todo_number: e.target.value
         });
     }
-
+    
     onChangeTodoResponsible(e) {
         this.setState({
             todo_responsible: e.target.value
@@ -71,7 +71,7 @@ export default class EditTodo extends Component {
         e.preventDefault();
         const obj = {
             todo_description: this.state.todo_description,
-            todo_number:this.state.todo_number,
+            todo_number: this.state.todo_number,
             todo_responsible: this.state.todo_responsible,
             todo_priority: this.state.todo_priority,
             todo_completed: this.state.todo_completed
@@ -80,6 +80,7 @@ export default class EditTodo extends Component {
             .then(res => console.log(res.data));
 
         this.props.history.push('/');
+        window.location.reload();
     }
 
     render() {
@@ -88,7 +89,7 @@ export default class EditTodo extends Component {
                 <h3>Update Todo</h3>
                 <form onSubmit={this.onSubmit}>
                     <div className="form-group">
-                        <label>Name </label>
+                        <label>Name: </label>
                         <input  type="text"
                                 className="form-control"
                                 value={this.state.todo_description}
@@ -96,7 +97,7 @@ export default class EditTodo extends Component {
                                 />
                     </div>
                     <div className="form-group">
-                        <label>Number </label>
+                        <label>Number: </label>
                         <input  type="text"
                                 className="form-control"
                                 value={this.state.todo_number}

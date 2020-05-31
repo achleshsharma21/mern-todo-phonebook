@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // mongodb://127.0.0.1:27017/todos (use this for local database)
 //mongodb+srv://admin:achlesh123@cluster0-jgmav.mongodb.net/test?retryWrites=true&w=majority
 //, useUnifiedTopology: true 
-mongoose.connect('mongodb+srv://achlesh:achlesh@cluster0-jgmav.mongodb.net/details?retryWrites=true&w=majority', { useNewUrlParser: true},(err)=>{
+mongoose.connect('mongodb+srv://achlesh:achlesh@cluster0-jgmav.mongodb.net/details?retryWrites=true&w=majority', { useNewUrlParser: true,useUnifiedTopology: true },(err)=>{
     if (!err) { console.log('MongoDB Connection Succeeded.') }
     else { console.log('Error in DB connection : ' + err) }
 });
@@ -57,6 +57,7 @@ todoRoutes.route('/update/:id').put( function(req, res) {
             res.status(404).send('data is not found');
         else
             todo.todo_description = req.body.todo_description;
+            todo.todo_number = req.body.todo_number;
             todo.todo_responsible = req.body.todo_responsible;
             todo.todo_priority = req.body.todo_priority;
             todo.todo_completed = req.body.todo_completed;
