@@ -11,15 +11,17 @@ let Todo = require('./todo.model');
 app.use(cors());
 app.use(bodyParser.json());
 // mongodb://127.0.0.1:27017/todos (use this for local database)
-mongoose.connect('mongodb+srv://admin:achlesh123@cluster0-jgmav.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true },(err)=>{
+//mongodb+srv://admin:achlesh123@cluster0-jgmav.mongodb.net/test?retryWrites=true&w=majority
+//, useUnifiedTopology: true 
+mongoose.connect('mongodb+srv://achlesh:achlesh@cluster0-jgmav.mongodb.net/details?retryWrites=true&w=majority', { useNewUrlParser: true},(err)=>{
     if (!err) { console.log('MongoDB Connection Succeeded.') }
     else { console.log('Error in DB connection : ' + err) }
 });
-// const connection = mongoose.connection;
+const connection = mongoose.connection;
 
-// connection.once('open', function() {
-//     console.log("MongoDB database connection established successfully");
-// })
+connection.once('open', function() {
+    console.log("MongoDB database connection established successfully");
+})
 
 todoRoutes.route('/').get(function(req, res) {
     Todo.find(function(err, todos) {
@@ -49,8 +51,8 @@ todoRoutes.route('/add').post(function(req, res) {
         });
 });
 
-todoRoutes.route('/update/:id').put(function(req, res) {
-    Todo.findOneAndUpdate(req.params.id, function(err, todo) {
+todoRoutes.route('/update/:id').post(async function(req, res) {
+    Todo.findById(req.params.id, function(err, todo) {
         if (!todo)
             res.status(404).send('data is not found');
         else
