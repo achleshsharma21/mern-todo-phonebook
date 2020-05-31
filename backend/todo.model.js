@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-let Todo = new Schema({
+var Todo = new Schema({
     todo_description: {
         type: String
     },
     todo_responsible: {
+        type: String
+    },
+    todo_number:{
         type: String
     },
     todo_priority: {

@@ -5,10 +5,13 @@ import axios from 'axios';
 const Todo = props => (
     <tr>
         <td>{props.todo.todo_description}</td>
+        <td>{props.todo.todo_number}</td>
         <td>{props.todo.todo_responsible}</td>
         <td>{props.todo.todo_priority}</td>
         <td>
             <Link to={"/edit/"+props.todo._id}>Edit</Link>
+            <br/>
+            <Link to={"/delete/"+props.todo._id}>Delete</Link>
         </td>
     </tr>
 )
@@ -35,18 +38,19 @@ export default class TodosList extends Component {
             return <Todo todo={currentTodo} key={i} />;
         });
     }
+    
 
     render() {
         return (
             <div>
-                <h3>Todos List</h3>
+                <h3>Contacts List</h3>
                 <table className="table table-striped" style={{ marginTop: 20 }}>
                     <thead>
                         <tr>
-                            <th>Description</th>
-                            <th>Responsible</th>
-                            <th>Priority</th>
-                            <th>Actions</th>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>E-mail</th>
+                            <th>Contact Type</th>
                         </tr>
                     </thead>
                     <tbody>

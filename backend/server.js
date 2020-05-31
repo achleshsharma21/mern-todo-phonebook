@@ -5,18 +5,21 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const todoRoutes = express.Router();
 const PORT = 4000;
-
+const MongoClient = require('mongodb').MongoClient;
 let Todo = require('./todo.model');
 
 app.use(cors());
 app.use(bodyParser.json());
+// mongodb://127.0.0.1:27017/todos (use this for local database)
+mongoose.connect('mongodb+srv://admin:achlesh123@cluster0-jgmav.mongodb.net/test?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true },(err)=>{
+    if (!err) { console.log('MongoDB Connection Succeeded.') }
+    else { console.log('Error in DB connection : ' + err) }
+});
+// const connection = mongoose.connection;
 
-mongoose.connect('mongodb://127.0.0.1:27017/todos', { useNewUrlParser: true });
-const connection = mongoose.connection;
-
-connection.once('open', function() {
-    console.log("MongoDB database connection established successfully");
-})
+// connection.once('open', function() {
+//     console.log("MongoDB database connection established successfully");
+// })
 
 todoRoutes.route('/').get(function(req, res) {
     Todo.find(function(err, todos) {
@@ -47,7 +50,7 @@ todoRoutes.route('/add').post(function(req, res) {
 });
 
 todoRoutes.route('/update/:id').put(function(req, res) {
-    Todo.findById(req.params.id, function(err, todo) {
+    Todo.findOneAndUpdate(req.params.id, function(err, todo) {
         if (!todo)
             res.status(404).send('data is not found');
         else
@@ -64,6 +67,20 @@ todoRoutes.route('/update/:id').put(function(req, res) {
             });
     });
 });
+
+todoRoutes.route('/delete/:id').delete(function(req,res){
+    Todo.findOneAndDelete(req.params.id,(error,data)=>{
+        if(error){
+            return next(error);
+        }
+        else{
+            res.status(200).json({
+                msg:data
+            })
+        }
+    })
+        
+        });
 
 app.use('/todos', todoRoutes);
 
